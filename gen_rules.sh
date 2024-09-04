@@ -101,6 +101,39 @@ update_ipcidr() {
 	rm -f *.tmp
 }
 
+update_chinalist() {
+	# China Domain
+	## China Domain
+	List='china_list.txt'
+	Version='china_list.ver'
+	downloadto 'https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/accelerated-domains.china.conf' "$List"
+	$SED -i 's|#.*||g; /^\s*$/d; s|\s||g' "$List"
+	$SED -Ei "s|^server=/||; s|/.*$||" "$List"
+	sort -u "$List" -o "$List"
+	cat <<-EOF > $Version
+	Last modified: $(date -u '+%F %T %Z')
+	Source: https://github.com/felixonmars/dnsmasq-china-list/blob/master/accelerated-domains.china.conf
+	type: domain_suffix
+	EOF
+
+	## China Domain Modified v2
+	List='china_list2.txt'
+	Version='china_list2.ver'
+	downloadto 'https://raw.githubusercontent.com/muink/dnsmasq-china-tool/list/accelerated-domains2.china.conf' "$List"
+	$SED -i 's|#.*||g; /^\s*$/d; s|\s||g' "$List"
+	$SED -Ei "s|^server=/||; s|/.*$||" "$List"
+	sort -u "$List" -o "$List"
+	cat <<-EOF > $Version
+	Last modified: $(date -u '+%F %T %Z')
+	Source: https://github.com/muink/dnsmasq-china-tool/blob/list/accelerated-domains2.china.conf
+	type: domain_suffix
+	EOF
+
+	# Cleanup
+	rm -f *.tmp
+}
+
 
 # main
 update_ipcidr
+update_chinalist
