@@ -1,0 +1,33 @@
+name: Generate rules
+
+on:
+  workflow_dispatch:
+  schedule:
+  - cron: "0 0 * * *"
+
+jobs:
+  deploy:
+    name: Generate rules
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # To push a branch
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Init repo
+      shell: bash
+      run: |
+        git config --local user.name "GitHub Action"
+        git config --local user.email "actions-user@users.noreply.github.com"
+
+    - name: Commit and push files
+      shell: bash
+      env:
+        Branch: release
+      run: |
+        git checkout --orphan $Branch; git reset
+        chmod +x ./genlists.sh
+        bash ./genlists.sh
+        git add *.txt *.list *.ver
+        git commit -m "$(date -u +%F)"
+        git push -f origin refs/heads/$Branch
