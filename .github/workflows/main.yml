@@ -29,5 +29,5 @@ jobs:
         chmod +x ./genlists.sh
         bash ./genlists.sh
         git add *.txt *.list *.ver
-        git commit -m "$(date -u +%F)"
+        git commit -m "$(date -u "+%Y%m%d%H%M")"
         git push -f origin refs/heads/$Branch
