@@ -1,13 +1,13 @@
-name: Generate rules
+name: Build
 
 on:
   workflow_dispatch:
   schedule:
-  - cron: "0 0 * * *"
+  - cron: "0 22 * * *"
 
 jobs:
   deploy:
-    name: Generate rules
+    name: Build
     runs-on: ubuntu-latest
     permissions:
       contents: write  # To push a branch
