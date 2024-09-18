@@ -76,9 +76,9 @@ update_ipcidr() {
 	cat <<-EOF > $Version4
 	Last modified: $(date -u '+%F %T %Z')
 	Source:
-	ipip: https://github.com/17mon/china_ip_list/blob/master/china_ip_list.txt
-	cz88: https://github.com/metowolf/iplist/blob/master/data/special/china.txt
-	coip: https://github.com/gaoyifan/china-operator-ip/blob/ip-lists/china.txt
+	- ipip: https://github.com/17mon/china_ip_list/blob/master/china_ip_list.txt
+	- cz88: https://github.com/metowolf/iplist/blob/master/data/special/china.txt
+	- coip: https://github.com/gaoyifan/china-operator-ip/blob/ip-lists/china.txt
 	EOF
 
 	## IPv6
@@ -93,8 +93,8 @@ update_ipcidr() {
 	cat <<-EOF > $Version6
 	Last modified: $(date -u '+%F %T %Z')
 	Source:
-	coip6: https://github.com/gaoyifan/china-operator-ip/blob/ip-lists/china6.txt
-	deny6: http://www.ipdeny.com/ipv6/ipaddresses/blocks/cn.zone
+	- coip6: https://github.com/gaoyifan/china-operator-ip/blob/ip-lists/china6.txt
+	- deny6: http://www.ipdeny.com/ipv6/ipaddresses/blocks/cn.zone
 	EOF
 
 	# Cleanup
