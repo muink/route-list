@@ -1,4 +1,5 @@
 # route-list
+Routing rules for dnsmasq and other advanced cores. Automatically update every day at 6AM CST.
 
 ## Download
 
