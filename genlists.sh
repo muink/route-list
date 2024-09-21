@@ -60,6 +60,11 @@ downloadto() {
 	curl -Lo "$2" "$1" && echo >> "$2"
 }
 
+# trim <src>
+trim() {
+	$SED -i 's|#.*||g; /^\s*$/d; s|\s||g' "$1"
+}
+
 update_ipcidr() {
 	# China IP
 	## IPv4
@@ -70,7 +75,7 @@ update_ipcidr() {
 	downloadto 'https://raw.githubusercontent.com/gaoyifan/china-operator-ip/ip-lists/china.txt' coipv4.tmp
 	## Merge IPv4
 	cat ipip.tmp cz88.tmp coipv4.tmp | sort -u > "$IPv4"
-	$SED -i '/#.*/d; /^\s*$/d; s|\s||g' "$IPv4"
+	trim "$IPv4"
 	sort -n -t'.' -k1,1 -k2,2 -k3,3 -k4,4 "$IPv4" -o "$IPv4"
 	$MERGER -s --cidr -o "$IPv4" "$IPv4"
 	cat <<-EOF > $Version4
@@ -88,7 +93,7 @@ update_ipcidr() {
 	downloadto 'http://www.ipdeny.com/ipv6/ipaddresses/blocks/cn.zone' ipdeny6.tmp
 	## Merge IPv6
 	cat coipv6.tmp ipdeny6.tmp | sort -u > "$IPv6"
-	$SED -i '/^#/d; /^\s*$/d; s|\s||g' "$IPv6"
+	trim "$IPv6"
 	$MERGER -s --cidr -o "$IPv6" "$IPv6"
 	cat <<-EOF > $Version6
 	Last modified: $(date -u '+%F %T %Z')
@@ -107,7 +112,7 @@ update_chinalist() {
 	List='china_list.txt'
 	Version='china_list.ver'
 	downloadto 'https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/accelerated-domains.china.conf' "$List"
-	$SED -i 's|#.*||g; /^\s*$/d; s|\s||g' "$List"
+	trim "$List"
 	$SED -Ei "s|^server=/||; s|/.*$||" "$List"
 	sort -u "$List" -o "$List"
 	cat <<-EOF > $Version
@@ -120,7 +125,7 @@ update_chinalist() {
 	List='china_list2.txt'
 	Version='china_list2.ver'
 	downloadto 'https://raw.githubusercontent.com/muink/dnsmasq-china-tool/list/accelerated-domains2.china.conf' "$List"
-	$SED -i 's|#.*||g; /^\s*$/d; s|\s||g' "$List"
+	trim "$List"
 	$SED -Ei "s|^server=/||; s|/.*$||" "$List"
 	sort -u "$List" -o "$List"
 	cat <<-EOF > $Version
